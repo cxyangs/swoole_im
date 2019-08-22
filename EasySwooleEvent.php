@@ -10,7 +10,7 @@ namespace EasySwoole\EasySwoole;
 
 use App\WebSocket\RelationMap;
 use App\WebSocket\WebSocketEvent;
-use App\WebSocket\WebsocketParser;
+use App\WebSocket\WebSocketParser;
 use EasySwoole\EasySwoole\Swoole\EventRegister;
 use EasySwoole\EasySwoole\AbstractInterface\Event;
 use EasySwoole\Http\Request;
@@ -51,7 +51,7 @@ class EasySwooleEvent implements Event
         // 注册WebSocket事件
         $conf = new \EasySwoole\Socket\Config();
         $conf->setType($conf::WEB_SOCKET);
-        $conf->setParser(new WebsocketParser());
+        $conf->setParser(new WebSocketParser());
         $dispatch = new Dispatcher($conf);
         $register->add(EventRegister::onOpen, [WebSocketEvent::class, 'onOpen']);
         $register->add(EventRegister::onClose, [WebSocketEvent::class, 'onClose']);
