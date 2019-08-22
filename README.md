@@ -8,7 +8,7 @@
 
 ### 运行
 
-* 下载源码
+* git clone https://github.com/cxyangs/swoole_im.git
 
 * composer install
 
