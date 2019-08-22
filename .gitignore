@@ -1,0 +1,9 @@
+.idea/
+/runtime/log/*
+/runtime/pid.pid
+/runtime/swoole.log
+/runtime/template_c/*
+public/template/node_modules/*
+vendor/
+composer.lock
+public/upload
