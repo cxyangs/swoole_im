@@ -15,11 +15,11 @@ return [
         'SOCK_TYPE' => SWOOLE_TCP,
         'RUN_MODEL' => SWOOLE_PROCESS,
         'SETTING' => [
-            'worker_num' => 4,
-            'task_worker_num' => 2,
+            'worker_num' => 1,
             'reload_async' => true,
-            'task_enable_coroutine' => true,
-            'max_wait_time'=>5
+            'max_wait_time'=>5,
+            'task_worker_num'=>1,
+            'task_enable_coroutine'=>true
         ],
     ],
     'RunEnv'      => 'dev',
@@ -35,9 +35,24 @@ return [
     ],
     'DISPLAY_ERROR' => true,
     'DATABASES'=>[
-
+        'host'=>'127.0.0.1',
+        'port'=>'3306',
+        'user'=>'chat',
+        'timeout'=>'5',
+        'charset'=>'utf8mb4',
+        'password'=>'cZCX5fiikm2ZG5re',
+        'database'=>'chat',
+        'prefix'=>'bs_',
+        'maxObjectNum'         => 5,//最大创建数量
+        'minObjectNum'         => 1,//最小创建数量 最小创建数量不能大于等于最大创建
+        'POOL_TIME_OUT'=>'0.1',
     ],
     'REDIS'=>[
-
+        'host'=>'127.0.0.1',
+        'port'=>'6379',
+        'auth'=>null,
+        'prefix'=>'miao_websocket_',//前缀
+        'maxObjectNum'         => 5,//最大创建数量
+        'minObjectNum'         => 1,//最小创建数量 最小创建数量不能大于等于最大创建
     ]
 ];
