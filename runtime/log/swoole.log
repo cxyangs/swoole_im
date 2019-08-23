@@ -194,3 +194,54 @@ Stack trace:
 [2019-08-21 10:24:59 *31741.0]	WARNING	swWorker_reactor_is_empty (ERRNO 9012): worker exit timeout, forced to terminate
 [2019-08-21 14:59:47 #32167.1]	INFO	Server is shutdown now
 [2019-08-21 14:59:52 *32171.0]	WARNING	swWorker_reactor_is_empty (ERRNO 9012): worker exit timeout, forced to terminate
+[2019-08-22 14:09:34 #32840.1]	INFO	Server is shutdown now
+[2019-08-22 14:09:38 *32844.0]	WARNING	swWorker_reactor_is_empty (ERRNO 9012): worker exit timeout, forced to terminate
+[2019-08-23 11:10:14 #32914.1]	INFO	Server is shutdown now
+[2019-08-23 11:10:19 *32918.0]	WARNING	swWorker_reactor_is_empty (ERRNO 9012): worker exit timeout, forced to terminate
+[2019-08-23 11:51:42 *33253.0]	ERROR	php_swoole_server_rshutdown (ERRNO 503): Fatal error: Uncaught TypeError: Argument 1 passed to EasySwoole\Socket\Dispatcher::getController() must be of the type string, null given, called in /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php on line 75 and defined in /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php:156
+Stack trace:
+#0 /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php(75): EasySwoole\Socket\Dispatcher->getController(NULL)
+#1 /mnt/hgfs/www/swoole_im/EasySwooleEvent.php(59): EasySwoole\Socket\Dispatcher->dispatch(Object(Swoole\WebSocket\Server), 'ping', Object(Swoole\WebSocket\Frame))
+#2 [internal function]: EasySwoole\EasySwoole\EasySwooleEvent::EasySwoole\EasySwoole\{closure}(Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#3 /mnt/hgfs/www/swoole_im/vendor/easyswoole/easyswoole/src/ServerManager.php(114): call_user_func(Object(Closure), Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#4 {main}
+  thrown in /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php on line 156
+[2019-08-23 11:51:42 $33250.0]	WARNING	swManager_check_exit_status: worker#0[pid=33253] abnormal exit, status=255, signal=0
+[2019-08-23 11:52:36 *33259.0]	ERROR	php_swoole_server_rshutdown (ERRNO 503): Fatal error: Uncaught TypeError: Argument 1 passed to EasySwoole\Socket\Dispatcher::getController() must be of the type string, null given, called in /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php on line 75 and defined in /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php:156
+Stack trace:
+#0 /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php(75): EasySwoole\Socket\Dispatcher->getController(NULL)
+#1 /mnt/hgfs/www/swoole_im/EasySwooleEvent.php(59): EasySwoole\Socket\Dispatcher->dispatch(Object(Swoole\WebSocket\Server), 'ping', Object(Swoole\WebSocket\Frame))
+#2 [internal function]: EasySwoole\EasySwoole\EasySwooleEvent::EasySwoole\EasySwoole\{closure}(Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#3 /mnt/hgfs/www/swoole_im/vendor/easyswoole/easyswoole/src/ServerManager.php(114): call_user_func(Object(Closure), Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#4 {main}
+  thrown in /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php on line 156
+[2019-08-23 11:52:36 $33256.0]	WARNING	swManager_check_exit_status: worker#0[pid=33259] abnormal exit, status=255, signal=0
+[2019-08-23 11:53:05 *33267.0]	ERROR	php_swoole_server_rshutdown (ERRNO 503): Fatal error: Uncaught TypeError: Return value of App\WebSocket\WebSocketParser::decode() must be an instance of EasySwoole\Socket\Bean\Caller or null, boolean returned in /mnt/hgfs/www/swoole_im/App/WebSocket/WebSocketParser.php:31
+Stack trace:
+#0 /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php(63): App\WebSocket\WebSocketParser->decode('ping', Object(EasySwoole\Socket\Client\WebSocket))
+#1 /mnt/hgfs/www/swoole_im/EasySwooleEvent.php(59): EasySwoole\Socket\Dispatcher->dispatch(Object(Swoole\WebSocket\Server), 'ping', Object(Swoole\WebSocket\Frame))
+#2 [internal function]: EasySwoole\EasySwoole\EasySwooleEvent::EasySwoole\EasySwoole\{closure}(Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#3 /mnt/hgfs/www/swoole_im/vendor/easyswoole/easyswoole/src/ServerManager.php(114): call_user_func(Object(Closure), Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#4 {main}
+  thrown in /mnt/hgfs/www/swoole_im/App/WebSocket/WebSocketParser.php on line 31
+[2019-08-23 11:53:05 $33264.0]	WARNING	swManager_check_exit_status: worker#0[pid=33267] abnormal exit, status=255, signal=0
+[2019-08-23 11:53:34 *33273.0]	ERROR	php_swoole_server_rshutdown (ERRNO 503): Fatal error: Uncaught Exception: aaa in /mnt/hgfs/www/swoole_im/App/WebSocket/WebSocketParser.php:31
+Stack trace:
+#0 /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php(63): App\WebSocket\WebSocketParser->decode('ping', Object(EasySwoole\Socket\Client\WebSocket))
+#1 /mnt/hgfs/www/swoole_im/EasySwooleEvent.php(59): EasySwoole\Socket\Dispatcher->dispatch(Object(Swoole\WebSocket\Server), 'ping', Object(Swoole\WebSocket\Frame))
+#2 [internal function]: EasySwoole\EasySwoole\EasySwooleEvent::EasySwoole\EasySwoole\{closure}(Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#3 /mnt/hgfs/www/swoole_im/vendor/easyswoole/easyswoole/src/ServerManager.php(114): call_user_func(Object(Closure), Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#4 {main}
+  thrown in /mnt/hgfs/www/swoole_im/App/WebSocket/WebSocketParser.php on line 31
+[2019-08-23 11:53:34 $33270.0]	WARNING	swManager_check_exit_status: worker#0[pid=33273] abnormal exit, status=255, signal=0
+[2019-08-23 11:55:45 *33279.0]	ERROR	php_swoole_server_rshutdown (ERRNO 503): Fatal error: Uncaught Error: Class 'Common' not found in /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php:172
+Stack trace:
+#0 /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php(75): EasySwoole\Socket\Dispatcher->getController('Common')
+#1 /mnt/hgfs/www/swoole_im/EasySwooleEvent.php(59): EasySwoole\Socket\Dispatcher->dispatch(Object(Swoole\WebSocket\Server), 'ping', Object(Swoole\WebSocket\Frame))
+#2 [internal function]: EasySwoole\EasySwoole\EasySwooleEvent::EasySwoole\EasySwoole\{closure}(Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#3 /mnt/hgfs/www/swoole_im/vendor/easyswoole/easyswoole/src/ServerManager.php(114): call_user_func(Object(Closure), Object(Swoole\WebSocket\Server), Object(Swoole\WebSocket\Frame))
+#4 {main}
+  thrown in /mnt/hgfs/www/swoole_im/vendor/easyswoole/socket/src/Dispatcher.php on line 172
+[2019-08-23 11:55:45 $33276.0]	WARNING	swManager_check_exit_status: worker#0[pid=33279] abnormal exit, status=255, signal=0
+[2019-08-23 12:13:37 *33307.0]	NOTICE	swFactoryProcess_finish (ERRNO 1004): send 24 byte failed, because connection[fd=1] is closed
+[2019-08-23 14:15:25 *33307.0]	NOTICE	swFactoryProcess_finish (ERRNO 1004): send 24 byte failed, because connection[fd=3] is closed

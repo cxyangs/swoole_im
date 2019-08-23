@@ -6,26 +6,8 @@
 // +----------------------------------------------------------------------
 // | Author: yang <502204678@qq.com>
 // +----------------------------------------------------------------------
-// | UserAuth.php  Version 2019/7/5
+// | Test.php  Version 2019/5/20
 // +----------------------------------------------------------------------
-namespace App\Service;
+require_once 'vendor/autoload.php';
 
-use App\WebSocket\RelationMap;
-
-class User
-{
-    use \EasySwoole\Component\Singleton;
-
-    public function auth($token,$fd)
-    {
-        $uid = tokenVerify($token);
-        if (!(int)$uid) return false;
-        RelationMap::setUidFdMap((int)$uid,$fd);
-        return $uid;
-    }
-
-    public function getUserInfo($uid,$field = 'id,nickname,avatar')
-    {
-        return (new Common())->getUserInfo($uid,$field);
-    }
-}
+var_dump(\Extend\Utility\Token::get(['id'=>22571],86400*100));

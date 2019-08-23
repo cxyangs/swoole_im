@@ -16,7 +16,7 @@ class Common extends Controller
 {
     public function index()
     {
-        $this->error(null,-1);
+        $this->error('PONG',-1);
     }
 
     public function success(array $params = null,string $msg = null)

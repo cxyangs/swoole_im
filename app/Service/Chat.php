@@ -158,7 +158,7 @@ class Chat
             $data['unread_count'] = $this->db->inc();
             $this->db->where('chat_id',$params['chat_id'])->where('uid',$params['to_uid'])->update('bs_chat',$data);
         } else if ($params['chat_type'] === 4){
-            if ($params['role_type'] === 'service') {
+            if ($params['role_type'] === 1) {
                 $this->db->where('chat_id',$params['chat_id'])->where('shop_id',$params['shop_id'])->update('bs_chat',$data);
                 $data['unread_count'] = $this->db->inc();
                 $this->db->where('chat_id',$params['chat_id'])->where('uid',$params['to_uid'])->update('bs_chat',$data);
@@ -189,5 +189,14 @@ class Chat
     {
         $LastInfo = $this->db->where('chat_id',$chat_id)->orderBy('id','DESC')->getOne('bs_chat_message','from_uid,to_uid');
         return $LastInfo ? new ChatMessageBean($LastInfo) : null;
+    }
+
+    public function setChatRead(int $uid,string $chat_id,int $role_type)
+    {
+        if ($role_type) {
+            $this->db->where('chat_id',$chat_id)->where('uid',0)->setValue('bs_chat','unread_count',0);
+        } else {
+            $this->db->where('chat_id',$chat_id)->where('uid',$uid)->setValue('bs_chat','unread_count',0);
+        }
     }
 }

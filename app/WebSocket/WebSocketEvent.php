@@ -29,6 +29,10 @@ class WebSocketEvent
     static function onOpen(\swoole_server $server, \swoole_http_request $req)
     {
         $token = $req->get['token'];
+        if (!$token) {
+            $server->close($req->fd);
+            return false;
+        }
         if (!User::getInstance()->auth($token,$req->fd)) {
             $server->close($req->fd);
         }

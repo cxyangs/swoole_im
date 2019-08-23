@@ -28,19 +28,23 @@ class WebSocketParser implements ParserInterface
     {
         $obj = json_decode($raw);
         $caller =  new Caller();
-        if (!$obj) return $caller;
-        $class = isset($obj->class) ? ucfirst($obj->class) : "Common";
-        $action = isset($obj->action) ? $obj->action : 'index';
-        if (!$class || !$action)  return $caller;
-        $content = isset($obj->content) ? (array)$obj->content : [];
-        $class = 'App\\WebSocket\\Controller\\'.$class;
-        if (!class_exists($class)) return $caller;
+        if (!$obj) {
+            $class = 'App\\WebSocket\\Controller\\Common';
+            $action = 'index';
+        } else {
+            $class = isset($obj->class) ? ucfirst($obj->class) : "Common";
+            $action = isset($obj->action) ? $obj->action : 'index';
+            if (!$class || !$action)  return $caller;
+            $content = isset($obj->content) ? (array)$obj->content : [];
+            $class = 'App\\WebSocket\\Controller\\'.$class;
+            if (!class_exists($class)) $class = 'App\\WebSocket\\Controller\\Common';
+            // 设置被调用的Args
+            $caller->setArgs($content);
+        }
         // 设置被调用的类
         $caller->setControllerClass($class);
         // 设置被调用的方法
         $caller->setAction($action);
-        // 设置被调用的Args
-        $caller->setArgs($content);
         return $caller;
     }
 

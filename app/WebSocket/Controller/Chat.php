@@ -39,19 +39,19 @@ class Chat extends Common
         switch ($chatType)
         {
             case 1:
-                $this->singleMsg($params);
+                return $this->singleMsg($params);
                 break;
             case 2:
-                $this->groupMsg($params);
+                return $this->groupMsg($params);
                 break;
             case 3:
-                $this->systemMsg($params);
+                return $this->systemMsg($params);
                 break;
             case 4:
-                $this->ServiceMsg($params);
+                return $this->ServiceMsg($params);
                 break;
         }
-        return $this->success();
+
     }
 
     /**
@@ -111,17 +111,18 @@ class Chat extends Common
         $chatService->addChatRecord($chatRecord);
         //更新聊天会话
         $chatService->updateChat($chatRecord);
+        return $this->success();
     }
 
     public function groupMsg($params)
     {
-
+        return $this->success();
     }
 
 
     public function systemMsg($params)
     {
-
+        return $this->success();
     }
 
     /**
@@ -138,18 +139,26 @@ class Chat extends Common
      */
     public function ServiceMsg($params)
     {
-        if (!isset($params['role_type']) || !$params['role_type']) return $this->error();
-        if (!isset($params['shop_id']) || !$params['shop_id']) return $this->error();
+        if (!isset($params['role_type'])) return $this->error();
         $chatService = new \App\Service\Chat();
         $client = $this->caller()->getClient();
         $uid = RelationMap::getUidByFd($client->getFd());
         if (!$params['chat_id']) {
+            if (!isset($params['shop_id']) || !$params['shop_id']) return $this->error();
             $params['chat_id'] = (function()use($params,$uid,$chatService){
-                $_uid = $params['role_type'] === 'service' ? $params['to_uid'] : $uid;
+                $_uid = (int)$params['role_type'] === 1 ? $params['to_uid'] : $uid;
                 //检测会话是否存在
                 $chatService->checkChat($params['shop_id'],$_uid,$params['chat_type']);
                 return buildChatHash($params['shop_id'],$_uid,$params['chat_type']);
             })();
+        } else {
+            $chatUids = deChatHash($params['chat_id'],$params['chat_type']);
+            if ((int)$params['role_type'] === 1) {
+                $params['shop_id'] = (int)$chatUids[0] === $params['to_uid'] ? (int)$chatUids[1] : (int)$chatUids[0];
+            } else {
+                $params['shop_id'] = (int)$chatUids[0] === $uid ? (int)$chatUids[1] : (int)$chatUids[0];
+            }
+
         }
         $chatMsg = [
             'msg'=>$params['msg'],
@@ -216,5 +225,18 @@ class Chat extends Common
         //更新聊天会话
         $chatRecord['role_type'] = $params['role_type'];
         $chatService->updateChat($chatRecord);
+        return $this->success();
+    }
+
+    public function setChatRead()
+    {
+        $params = $this->caller()->getArgs();
+        if (!isset($params['chat_id']) || !$params['chat_id']) return $this->error();
+        if (!isset($params['role_type'])) return $this->error();
+        $chat = new \App\Service\Chat();
+        $client = $this->caller()->getClient();
+        $uid = RelationMap::getUidByFd($client->getFd());
+        $chat->setChatRead((int)$uid,$params['chat_id'],(int)$params['role_type']);
+        return $this->success();
     }
 }

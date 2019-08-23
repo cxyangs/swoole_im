@@ -30,17 +30,22 @@ class User extends Controller
         return true;
     }
 
+    /**
+     * @Mark:获取好友列表
+     * @return bool
+     * @throws \EasySwoole\Component\Pool\Exception\PoolEmpty
+     * @throws \EasySwoole\Component\Pool\Exception\PoolException
+     * @Author: yang <502204678@qq.com>
+     * @Version 2019/8/23
+     */
     public function index()
     {
         $db = Mysql::getInstance()->pool('mysql')::defer();
         $userList = $db->get('bs_user',[0,10],'nickname as username,avatar,id');
-        $mine = [];
+        $mine = $db->where('id',$this->uid)->getOne('bs_user','id,nickname,avatar');
         foreach ($userList as &$info) {
             $info['avatar'] = imgPath($info['avatar']);
             $info['sign'] = '我的ID是:'.$info['id'];
-            if ($info['id'] == $this->request()->getQueryParam('id')) {
-                $mine = $info;
-            }
         }
         $data = [
             'mine'=>$mine,
@@ -53,15 +58,7 @@ class User extends Controller
                 ]
             ]
         ];
-        $result = Array(
-            "code" => 0,
-            "data" => $data,
-            "msg" => ''
-        );
-        $this->response()->write(json_encode($result, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-        $this->response()->withHeader('Content-type', 'application/json;charset=utf-8');
-        $this->response()->withStatus(200);
-        return true;
+        return $this->success(null,$data);
     }
 
     public function chatRecently()

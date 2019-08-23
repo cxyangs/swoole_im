@@ -58,6 +58,18 @@ function buildChatHash($from,$to,$chat_type){
     return implode(str_repeat('_',$chat_type),$sort);
 }
 
+/**
+ * @Mark:解析会话id
+ * @param $chat_id
+ * @param $chat_type
+ * @return array
+ * @Author: yang <502204678@qq.com>
+ * @Version 2019/8/23
+ */
+function deChatHash($chat_id,$chat_type){
+    return explode(str_repeat('_',$chat_type),$chat_id);
+}
+
 function getLimitByPage(int $page = 1, int $limit = 20)
 {
     if ($page < 1) $page = 1;
