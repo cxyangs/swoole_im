@@ -25,7 +25,7 @@ class User extends Controller
         if (!$authorizations) return false;
         $authorizations = explode(' ',$authorizations[0]);
         if (count($authorizations) != 2) return false;
-        list(,$token) = $authorizations;
+        $token = $authorizations[1];
         $uid = tokenVerify($token);
         if (!$uid) return false;
         $this->uid = $uid;
