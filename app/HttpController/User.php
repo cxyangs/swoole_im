@@ -23,7 +23,7 @@ class User extends Controller
         parent::onRequest($action);
         $authorizations = $this->request()->getHeader('authorizations');
         if (!$authorizations) return false;
-        $authorizations = explode(' ',$this->request()->getHeader('authorizations')[0]);
+        $authorizations = explode(' ',$authorizations[0]);
         if (count($authorizations) != 2) return false;
         list(,$token) = $authorizations;
         $uid = tokenVerify($token);
