@@ -39,11 +39,11 @@ class Chat
     public function getChatRecently(int $id,int $is_shop = 0)
     {
         if ($is_shop) {
-            $this->db->where('shop_id',$id);
+            $this->db->where('shop_id',$id)->where('uid',0);
         } else {
             $this->db->where('uid',$id);
         }
-        $list = $this->db->where('is_del',0)->orderBy('last_time','DESC')->get('bs_chat',null,'id,chat_id,shop_id,friend_uid,friend_name,friend_avatar,last_msg,last_uid,last_time,chat_type,msg_type,unread_count');
+        $list = $this->db->where('is_del',0)->orderBy('last_time','DESC')->get('bs_chat',null,'id,uid,chat_id,shop_id,friend_uid,friend_name,friend_avatar,last_msg,last_uid,last_time,chat_type,msg_type,unread_count');
         return ['rows'=>$list,'unread_count'=>array_sum(array_column($list,'unread_count'))];
     }
 
@@ -165,7 +165,7 @@ class Chat
             } else {
                 $this->db->where('chat_id',$params['chat_id'])->where('uid',$params['from_uid'])->update('bs_chat',$data);
                 $data['unread_count'] = $this->db->inc();
-                $this->db->where('chat_id',$params['chat_id'])->where('shop_id',$params['shop_id'])->update('bs_chat',$data);
+                $this->db->where('chat_id',$params['chat_id'])->where('uid',0)->update('bs_chat',$data);
             }
         } else if ($params['chat_type'] === 2) {
 

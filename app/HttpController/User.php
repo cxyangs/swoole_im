@@ -70,7 +70,7 @@ class User extends Controller
             //获取店铺id
             $shopId = (new Common())->getshopIdByUid($this->uid);
             if (!$shopId) return $this->error();
-            $list = $chatService->getChatRecently($shopId);
+            $list = $chatService->getChatRecently($shopId,1);
         } else {
             $list = $chatService->getChatRecently($this->uid);
         }

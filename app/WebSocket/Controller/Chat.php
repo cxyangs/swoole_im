@@ -11,6 +11,7 @@
 namespace App\WebSocket\Controller;
 
 use App\Service\User;
+use App\WebSocket\MsgCode;
 use App\WebSocket\RelationMap;
 use EasySwoole\EasySwoole\ServerManager;
 use EasySwoole\EasySwoole\Swoole\Task\TaskManager;
@@ -33,7 +34,7 @@ class Chat extends Common
     {
         $params = $this->caller()->getArgs();
         if (!isset($params['chat_type']) || !$params['chat_type'] || !isset($params['msg_type']) || !$params['msg_type'] || !isset($params['msg']) || !$params['msg'] || !isset($params['to_uid']) || !$params['to_uid'] || !isset($params['chat_id']) ) {
-            return $this->error();
+            return $this->error('参数错误');
         }
         $chatType = $params['chat_type'];
         switch ($chatType)
@@ -93,7 +94,7 @@ class Chat extends Common
                 $server = ServerManager::getInstance()->getSwooleServer();
                 foreach ($friendFdList as $fd) {
                     if ($server->isEstablished($fd)) {
-                        $server->push($fd,json_encode(['code'=>1,'msg'=>null,'result'=>$chatMsg]));
+                        $server->push($fd,json_encode(['code'=>MsgCode::ChatMsg,'msg'=>null,'result'=>$chatMsg]));
                     }
                 }
             });
@@ -158,7 +159,6 @@ class Chat extends Common
             } else {
                 $params['shop_id'] = (int)$chatUids[0] === $uid ? (int)$chatUids[1] : (int)$chatUids[0];
             }
-
         }
         $chatMsg = [
             'msg'=>$params['msg'],
@@ -168,14 +168,16 @@ class Chat extends Common
             'chat_id'=>$params['chat_id'],
             'shop_id'=>$params['shop_id']
         ];
+        $userInfo = User::getInstance()->getUserInfo($uid);
         //校验消息发送人身份
-        if ($params['role_type'] === 'service') {
+        if ($params['role_type'] === 1) {
             $shopInfo = (new \App\Service\Common())->getShopInfoById((int)$params['shop_id']);
             $chatMsg['nickname'] = $shopInfo->getShopName();
             $chatMsg['avatar'] = $shopInfo->getShopLogo();
+            $chatMsg['service_avatar'] = imgPath($userInfo->getAvatar());
+            $chatMsg['service_nickname'] = $userInfo->getNickname();
             $friendFdList = RelationMap::getFdListByUid($params['to_uid']);
         } else {
-            $userInfo = User::getInstance()->getUserInfo($uid);
             $chatMsg['nickname'] = $userInfo->getNickname();
             $chatMsg['avatar'] = imgPath($userInfo->getAvatar());
             $chatMsg['id'] = $uid;
@@ -205,7 +207,7 @@ class Chat extends Common
                 $server = ServerManager::getInstance()->getSwooleServer();
                 foreach ($friendFdList as $fd) {
                     if ($server->isEstablished($fd)) {
-                        $server->push($fd,json_encode(['code'=>1,'msg'=>null,'result'=>$chatMsg]));
+                        $server->push($fd,json_encode(['code'=>MsgCode::ChatMsg,'msg'=>null,'result'=>$chatMsg]));
                     }
                 }
             });

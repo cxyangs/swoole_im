@@ -245,3 +245,10 @@ Stack trace:
 [2019-08-23 11:55:45 $33276.0]	WARNING	swManager_check_exit_status: worker#0[pid=33279] abnormal exit, status=255, signal=0
 [2019-08-23 12:13:37 *33307.0]	NOTICE	swFactoryProcess_finish (ERRNO 1004): send 24 byte failed, because connection[fd=1] is closed
 [2019-08-23 14:15:25 *33307.0]	NOTICE	swFactoryProcess_finish (ERRNO 1004): send 24 byte failed, because connection[fd=3] is closed
+[2019-08-23 19:47:29 $33732.0]	WARNING	swSignal_callback (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2019-08-23 19:47:29 #33731.1]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2019-08-23 19:47:29 *33735.0]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2019-08-23 19:47:29 ^33734.1]	WARNING	swSignalfd_onSignal (ERRNO 707): Unable to find callback function for signal Hangup: 1
+[2019-08-26 10:13:40 #33731.1]	INFO	Server is shutdown now
+[2019-08-26 10:13:45 *33735.0]	WARNING	swWorker_reactor_is_empty (ERRNO 9012): worker exit timeout, forced to terminate
+[2019-08-26 15:28:42 *34566.0]	NOTICE	swFactoryProcess_finish (ERRNO 1005): connection[fd=3] does not exists
