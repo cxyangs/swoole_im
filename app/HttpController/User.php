@@ -25,7 +25,7 @@ class User extends Controller
         if (!$authorizations) return false;
         $authorizations = explode(' ',$this->request()->getHeader('authorizations')[0]);
         if (count($authorizations) != 2) return false;
-        list(,$token) = explode(' ',$authorizations);
+        list(,$token) = $authorizations;
         $uid = tokenVerify($token);
         if (!$uid) return false;
         $this->uid = $uid;
