@@ -88,17 +88,6 @@ class Chat extends Common
             'msg'=> $params['msg'],
             'createtime'=> time()
         ];
-        if ($friendFdList) {
-            //异步推送消息
-            TaskManager::async(function () use ($friendFdList,$chatMsg){
-                $server = ServerManager::getInstance()->getSwooleServer();
-                foreach ($friendFdList as $fd) {
-                    if ($server->isEstablished($fd)) {
-                        $server->push($fd,json_encode(['code'=>MsgCode::ChatMsg,'msg'=>null,'result'=>$chatMsg]));
-                    }
-                }
-            });
-        }
         $chatRecord = [
             'from_uid'=>$uid,
             'to_uid'=>$params['to_uid'],
@@ -112,6 +101,17 @@ class Chat extends Common
         $chatService->addChatRecord($chatRecord);
         //更新聊天会话
         $chatService->updateChat($chatRecord);
+        if ($friendFdList) {
+            //异步推送消息
+            TaskManager::async(function () use ($friendFdList,$chatMsg){
+                $server = ServerManager::getInstance()->getSwooleServer();
+                foreach ($friendFdList as $fd) {
+                    if ($server->isEstablished($fd)) {
+                        $server->push($fd,json_encode(['code'=>MsgCode::ChatMsg,'msg'=>null,'result'=>$chatMsg]));
+                    }
+                }
+            });
+        }
         return $this->success();
     }
 
