@@ -15,7 +15,7 @@ $dir = isset($argv[1]) ? $argv[1] : __DIR__.'/app/Service/Bean';
 $tableName = isset($argv[2]) ? $argv[2] : 'ALL';
 if (!is_dir($dir)) mkdir($dir,0777,true);
 $config = [
-    'host'=>'47.99.118.89',
+    'host'=>'127.0.0.1',
     'port'=>'3306',
     'user'=>'miao',
     'timeout'=>'5',

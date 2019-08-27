@@ -12,26 +12,10 @@ namespace App\HttpController;
 
 use App\Service\Chat;
 use App\Service\Common;
-use EasySwoole\Http\AbstractInterface\Controller;
 use EasySwoole\MysqliPool\Mysql;
 
-class User extends Controller
+class User extends \App\HttpController\Common
 {
-    protected $uid;
-    protected function onRequest(?string $action): ?bool
-    {
-        parent::onRequest($action);
-        $authorizations = $this->request()->getHeader('authorizations');
-        if (!$authorizations) return false;
-        $authorizations = explode(' ',$authorizations[0]);
-        if (count($authorizations) != 2) return false;
-        $token = $authorizations[1];
-        $uid = tokenVerify($token);
-        if (!$uid) return false;
-        $this->uid = $uid;
-        return true;
-    }
-
     /**
      * @Mark:获取好友列表
      * @return bool
@@ -115,34 +99,5 @@ class User extends Controller
             ]
         ];
         $this->response()->write(json_encode($data));
-    }
-
-    public function success($msg = null,$result = null,$code = 1)
-    {
-        $data = [
-            'code'=>$code,
-            'msg'=>$msg,
-            'result'=>$result
-        ];
-        $this->response()->write(json_encode($data));
-        $this->response()->end();
-        return true;
-    }
-
-    public function error($msg = null,$result = null,$code = 0)
-    {
-        $data = [
-            'code'=>$code,
-            'msg'=>$msg,
-            'result'=>$result
-        ];
-        $this->response()->write(json_encode($data));
-        $this->response()->end();
-        return true;
-    }
-
-    public function onException(\Throwable $throwable):void
-    {
-        $this->error($throwable->getMessage());
     }
 }

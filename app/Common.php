@@ -31,6 +31,30 @@ function tokenVerify($token)
 }
 
 /**
+ * @Mark:生成JWT token
+ * @param $uid
+ * @return bool|string
+ * @Author: yang <502204678@qq.com>
+ * @Version 2019/8/27
+ */
+function tokenBuild($uid) {
+    try{
+        $key = '0d971b21c416462afaa82653fc23a361';
+        $alg = 'HS256';
+        $iss = 'https://www.szbsit.com';
+        $token = [
+            'iss' => $iss,
+            'iat' => time(),
+            'data' => ['id'=>$uid],
+            'exp'=>time() + 8640000
+        ];
+        return \Firebase\JWT\JWT::encode($token,$key,$alg);
+    }catch (Throwable $e) {
+        return false;
+    }
+}
+
+/**
  * @Mark:补全图片路径
  * @param $imgpath
  * @return string
