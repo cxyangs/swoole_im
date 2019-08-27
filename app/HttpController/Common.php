@@ -33,7 +33,7 @@ class Common extends Controller
             if (!$uid) throw new \Exception('请登录','401');
             $this->uid = $uid;
         }
-        parent::onRequest($action);
+        return parent::onRequest($action);
     }
 
     public function success($msg = null,$result = null,$code = 1)
