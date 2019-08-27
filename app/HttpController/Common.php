@@ -25,12 +25,12 @@ class Common extends Controller
     {
         if (!in_array('*',$this->noNeedLogin) && !in_array($action,$this->noNeedLogin)) {
             $authorizations = $this->request()->getHeader('authorizations');
-            if (!$authorizations) throw new \Exception('请登录','401');
+            if (!$authorizations) throw new \Exception('请登录',401);
             $authorizations = explode(' ',$authorizations[0]);
-            if (count($authorizations) != 2) throw new \Exception('请登录','401');
+            if (count($authorizations) != 2) throw new \Exception('请登录',401);
             $token = $authorizations[1];
             $uid = tokenVerify($token);
-            if (!$uid) throw new \Exception('请登录','401');
+            if (!$uid) throw new \Exception('请登录',401);
             $this->uid = $uid;
         }
         return parent::onRequest($action);
@@ -64,8 +64,9 @@ class Common extends Controller
     {
         if ($throwable->getCode() != 500) {
             $this->error($throwable->getMessage(),null,$throwable->getCode());
+        } else {
+            $this->response()->withStatus(500);
+            $this->error($throwable->getMessage());
         }
-        $this->response()->withStatus(500);
-        $this->error($throwable->getMessage());
     }
 }
