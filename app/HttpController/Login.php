@@ -33,7 +33,7 @@ class Login extends Common
         if (!isset($params['password']) || empty($params['password'])) return $this->error('密码不得为空');
         if (!preg_match('/^[a-zA-Z]\w{5,17}$/',$params['password'])) return $this->error('密码格式错误');
         $userInfo = (new \App\Service\Common())->getUserInfoByUsername($params['username']);
-        if (!$userInfo) return $this->error('账户不存在');
+        if (!$userInfo->getId()) return $this->error('账户不存在');
         if ($userInfo->getPassword() !== md5(md5($params['password']).$userInfo->getSalt())) return $this->error('密码错误');
         $this->success('登录成功',['token'=>tokenBuild($userInfo->getId())]);
     }
@@ -56,7 +56,7 @@ class Login extends Common
         if (!preg_match('/^[a-zA-Z]\w{5,17}$/',$params['password'])) return $this->error('请输入6~18位数字、字母或下划线的组合密码');
         $service = new \App\Service\Common();
         $userInfo = $service->getUserInfoByUsername($params['username']);
-        if ($userInfo) return $this->error('当前用户名已存在');
+        if ($userInfo->getId()) return $this->error('当前用户名已存在');
         $userInfo->setSalt(Random::character(6));
         $userInfo->setUsername($params['username']);
         $userInfo->setPassword(md5(md5($params['password']).$userInfo->getSalt()));
