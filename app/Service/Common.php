@@ -59,7 +59,7 @@ class Common
 
     public function userRegister(UserBean $userBean)
     {
-        return $this->db->insert('bs_user',$userBean->toArray());
+        return $this->db->insert('bs_user',$userBean->toArray(null,1));
     }
 
     /**

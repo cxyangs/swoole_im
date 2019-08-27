@@ -59,10 +59,11 @@ class Login extends Common
         if ($userInfo->getId()) return $this->error('当前用户名已存在');
         $userInfo->setSalt(Random::character(6));
         $userInfo->setUsername($params['username']);
+        $userInfo->setNickname($params['username']);
         $userInfo->setPassword(md5(md5($params['password']).$userInfo->getSalt()));
         $ret = $service->userRegister($userInfo);
         if ($ret) {
-            return $this->success('注册成功');
+            return $this->success('注册成功',['token'=>tokenBuild($ret)]);
         } else {
             return $this->error('注册失败');
         }
