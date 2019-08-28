@@ -191,12 +191,43 @@ class Chat
         return $LastInfo ? new ChatMessageBean($LastInfo) : null;
     }
 
+    /**
+     * @Mark:消息标记为已读
+     * @param int $uid
+     * @param string $chat_id
+     * @param int $role_type
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
+     * @Author: yang <502204678@qq.com>
+     * @Version 2019/8/28
+     */
     public function setChatRead(int $uid,string $chat_id,int $role_type)
     {
         if ($role_type) {
             $this->db->where('chat_id',$chat_id)->where('uid',0)->setValue('bs_chat','unread_count',0);
         } else {
             $this->db->where('chat_id',$chat_id)->where('uid',$uid)->setValue('bs_chat','unread_count',0);
+        }
+    }
+
+    /**
+     * @Mark:删除会话（假删）
+     * @param int $uid
+     * @param string $chat_id
+     * @param int $role_type
+     * @throws \EasySwoole\Mysqli\Exceptions\ConnectFail
+     * @throws \EasySwoole\Mysqli\Exceptions\PrepareQueryFail
+     * @throws \Throwable
+     * @Author: yang <502204678@qq.com>
+     * @Version 2019/8/28
+     */
+    public function delChat(int $uid,string $chat_id,int $role_type)
+    {
+        if ($role_type) {
+            $this->db->where('chat_id',$chat_id)->where('uid',0)->setValue('bs_chat','is_del',1);
+        } else {
+            $this->db->where('chat_id',$chat_id)->where('uid',$uid)->setValue('bs_chat','is_del',1);
         }
     }
 }

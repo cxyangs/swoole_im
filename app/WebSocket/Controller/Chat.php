@@ -241,4 +241,16 @@ class Chat extends Common
         $chat->setChatRead((int)$uid,$params['chat_id'],(int)$params['role_type']);
         return $this->success();
     }
+
+    public function delChat()
+    {
+        $params = $this->caller()->getArgs();
+        if (!isset($params['chat_id']) || !$params['chat_id']) return $this->error();
+        if (!isset($params['role_type'])) return $this->error();
+        $chat = new \App\Service\Chat();
+        $client = $this->caller()->getClient();
+        $uid = RelationMap::getUidByFd($client->getFd());
+        $chat->delChat((int)$uid,$params['chat_id'],(int)$params['role_type']);
+        return $this->success();
+    }
 }
