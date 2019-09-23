@@ -16,8 +16,12 @@ class MsgCode
     const FriendList = 100;
     // 群成员列表
     const GroupMemberList = 101;
+    //最近聊天列表
+    const RecentChat = 102;
     // 新聊天消息
     const ChatMsg = 200;
     // 聊天记录
     const ChatMsgRecord = 201;
+    //未登录
+    const NoLogin = -200;
 }
